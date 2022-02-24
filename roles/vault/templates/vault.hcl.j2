@@ -10,7 +10,11 @@ storage "file" {
 
 # HTTP listener
 listener "tcp" {
-  address = "192.168.122.33:8200"
+{% if hostvars[inventory_hostname]['ansible_default_ipv6']['address'] is defined and hostvars[inventory_hostname]['ansible_default_ipv6']['address'] | length %}
+  address = "[{{ hostvars[inventory_hostname]['ansible_default_ipv6']['address']}}]:8200"
+{% else %}
+  address = "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address']}}:8200"
+{% endif %}
   tls_disable = 1
 }
 
@@ -22,10 +26,10 @@ listener "tcp" {
 #}
 
 {% if hostvars[inventory_hostname]['ansible_default_ipv6']['address'] is defined and hostvars[inventory_hostname]['ansible_default_ipv6']['address'] | length %}
-api_addr = "http://{{ hostvars[inventory_hostname]['ansible_default_ipv6']['address']}}:8200"
-cluster_addr = "http://{{ hostvars[inventory_hostname]['ansible_default_ipv6']['address']}}:8201"
+api_addr = "http://[{{ hostvars[inventory_hostname]['ansible_default_ipv6']['address']}}]:8200"
+cluster_addr = "http://[{{ hostvars[inventory_hostname]['ansible_default_ipv6']['address']}}]:8201"
 
 {% else %}
-api_addr = "http://[{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address']}}]:8200"
-cluster_addr = "http://[{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address']}}]:8201"
+api_addr = "http://{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address']}}:8200"
+cluster_addr = "http://{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address']}}:8201"
 {% endif %}
