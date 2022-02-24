@@ -7,7 +7,7 @@
     mode: 0755
   loop:
     - /opt/vault/
-    - /etc/vault/vault.d/
+    - /etc/vault.d/
 
 
 - name: Creating vault user group
@@ -37,7 +37,7 @@
 
 - name: "Unzip vault archive"
   unarchive:
-    src: "{{ vault_download.dest }}"
+    src: /tmp/vault_{{vault_version}}_linux_amd64.zip
     dest: /usr/local/bin
     copy: no
     owner: "{{ vault_user }}"

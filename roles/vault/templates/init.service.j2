@@ -4,14 +4,17 @@ Documentation=https://vaultproject.io/docs/
 Requires=network-online.target
 After=network-online.target
 ConditionFileNotEmpty=/etc/vault.d/vault.hcl
-StartLimitIntervalSec=60
-StartLimitBurst=3
 
 [Service]
 User=vault
 Group=vault
-ExecStart=/usr/local/bin/vault server -config=/etc/vault.hcl
-ExecReload=/usr/local/bin/kill --signal HUP $MAINPID
+ProtectSystem=full
+ProtectHome=read-only
+PrivateTmp=yes
+PrivateDevices=yes
+AmbientCapabilities=CAP_IPC_LOCK
+ExecStart=/usr/local/bin/vault server -config=/etc/vault.d/vault.hcl
+ExecReload=/bin/kill --signal HUP $MAINPID
 CapabilityBoundingSet=CAP_SYSLOG CAP_IPC_LOCK
 Capabilities=CAP_IPC_LOCK+ep
 SecureBits=keep-caps
@@ -22,6 +25,7 @@ Restart=on-failure
 RestartSec=5
 TimeoutStopSec=30
 LimitNOFILE=65536
+Environment=GODEBUG=x509ignoreCN=0
 
 [Install]
 WantedBy=multi-user.target
