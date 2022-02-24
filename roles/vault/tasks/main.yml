@@ -1,3 +1,15 @@
+- name: create vault directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ vault_user }}"
+    group: "{{ vault_group }}"
+    mode: 0755
+  loop:
+    - /opt/vault/
+    - /etc/vault/vault.d/
+
+
 - name: Creating vault user group
   group: 
     name: "{{ vault_group }}"
