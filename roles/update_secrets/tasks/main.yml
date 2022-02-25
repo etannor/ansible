@@ -3,21 +3,17 @@
 
 - name: (VAULT - Keys) set toot token as fact
   set_fact: 
-    vault_url: "http://{{ vault_url }}:8200"
+    vault_url: "{{ vault_url }}"
     cacheable: yes
 
 - debug: msg="{{ vault_url }}"
-
-
-- name: Wait 2 minutes
-  pause:
-    minutes: "2"
 
 - name: (VAULT - Populate) Create Keystore
   environment:
     VAULT_TOKEN: "{{ vault_token|quote }}"
     VAULT_ADDR: "{{ vault_url|quote }}"
-  shell: vault secrets enable -version=2 -path="{{ platform }}/{{ application }}/{{ vnf }}" kv
+  shell: "VAULT_TOKEN={{vault_token}} /usr/local/bin/vault secrets enable -version=2 -path={{ platform }}/{{ application }}/{{ vnf }} kv"
+  ignore_errors: true
 
 - name: (VAULT - Populate) Add secrets to Vault
   vars:
@@ -31,5 +27,4 @@
     body: { "options": { "max_versions": "12" }, "data": { "password":"{{ rndpass }}" }}
     return_content: yes
     status_code: "204"
-  no_log: True
-  with_items: users
+  with_items: "{{ users }}"
