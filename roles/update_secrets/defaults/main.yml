@@ -1,2 +1,3 @@
 ---
 # defaults file for update_secrets
+# from https://tech.davidfield.co.uk/storing-ansible-passwords-in-hashicorp-vault/

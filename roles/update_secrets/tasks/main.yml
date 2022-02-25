@@ -1,2 +1,35 @@
 ---
 # tasks file for update_secrets
+
+- name: (VAULT - Keys) set toot token as fact
+  set_fact: 
+    vault_url: "http://{{ vault_url }}:8200"
+    cacheable: yes
+
+- debug: msg="{{ vault_url }}"
+
+
+- name: Wait 2 minutes
+  pause:
+    minutes: "2"
+
+- name: (VAULT - Populate) Create Keystore
+  environment:
+    VAULT_TOKEN: "{{ vault_token|quote }}"
+    VAULT_ADDR: "{{ vault_url|quote }}"
+  shell: vault secrets enable -version=2 -path="{{ platform }}/{{ application }}/{{ vnf }}" kv
+
+- name: (VAULT - Populate) Add secrets to Vault
+  vars:
+    rndpass: "{{ lookup('password', '/dev/null length=15 chars=ascii_letters,digits') }}"
+  uri:
+    url: "{{ vault_url }}/v1/{{ platform }}/{{ application }}/{{ vnf }}/{{ item }}"
+    body_format: json
+    method: POST
+    headers:
+      X-Vault-Token: "{{ vault_token }}"
+    body: { "options": { "max_versions": "12" }, "data": { "password":"{{ rndpass }}" }}
+    return_content: yes
+    status_code: "204"
+  no_log: True
+  with_items: users
