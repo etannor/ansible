@@ -5,3 +5,15 @@ vault_config_path: "/etc/vault.d/vault.hcl"
 
 unseal_keys_dir_output: "{{ playbook_dir }}/unsealKey"
 root_token_dir_output: "{{ playbook_dir }}/rootKey"
+
+users:
+  - pgwadmin
+  - sdladmin
+  - sdmexpert
+
+vault_url: 'http://192.168.122.33:8200'
+vault_token: 's.XS78mK5zbwkrPUopjfM4Mjjv'
+
+platform: vSA
+application: sdl
+vnf: ops
