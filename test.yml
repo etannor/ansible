@@ -1,0 +1,9 @@
+---
+- hosts: localhost
+  tasks:
+
+    - name: (VAULT - Populate) Add services to Vault
+      set_fact:
+        rndpass: "{{ lookup('password', '/dev/null length=15 chars=punctuation,ascii_letters,digits') }}"
+
+    - debug: var=rndpass
