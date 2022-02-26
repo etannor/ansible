@@ -14,6 +14,6 @@ users:
 vault_url: "http://192.168.122.33:8200"
 vault_token: 's.rHXgtPKX2ecEfTpUChS7EDDw'
 
-platform: vSA
+platform: SDL
 application: sdl
-vnf: testg
+vnf: test

@@ -17,11 +17,11 @@
 
 - name: Check mounts 
   uri:
-    url: "{{ vault_url }}/v1/sys/mounts
+    url: "{{ vault_url }}/v1/sys/mounts"
     body_format: json
     method: GET
     headers:
-      X-Vault-Token: "{{ vault_token }}"
+      X-Vault-Token: "s.ERc7VRhVOV7qt2dA2awN5Rgd"
     return_content: yes
 
 
@@ -34,7 +34,7 @@
     body_format: json
     method: POST
     headers:
-      X-Vault-Token: "{{ vault_token }}"
+      X-Vault-Token: "s.ERc7VRhVOV7qt2dA2awN5Rgd"
     body: { "options": { "max_versions": "12" }, "data": { "password":"{{ rndpass }}" }}
     return_content: yes
     status_code: "200"
@@ -50,7 +50,7 @@
       X-Vault-Token: "s.ERc7VRhVOV7qt2dA2awN5Rgd"
     return_content: yes
     status_code: "200"
-    register: key_pass
+  register: key_pass
   with_items: "{{ users }}"
 
 
