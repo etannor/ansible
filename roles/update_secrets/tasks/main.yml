@@ -8,23 +8,50 @@
 
 - debug: msg="{{ vault_url }}"
 
-- name: (VAULT - Populate) Create Keystore
+- name: Create {{ platform }} secrets path
   environment:
     VAULT_TOKEN: "{{ vault_token|quote }}"
     VAULT_ADDR: "{{ vault_url|quote }}"
-  shell: "VAULT_TOKEN={{vault_token}} /usr/local/bin/vault secrets enable -version=2 -path={{ platform }}/{{ application }}/{{ vnf }} kv"
+  shell: "VAULT_TOKEN={{vault_token}} /usr/local/bin/vault secrets enable -version=2 -path={{platform}} kv"
   ignore_errors: true
 
-- name: (VAULT - Populate) Add secrets to Vault
+- name: Check mounts 
+  uri:
+    url: "{{ vault_url }}/v1/sys/mounts
+    body_format: json
+    method: GET
+    headers:
+      X-Vault-Token: "{{ vault_token }}"
+    return_content: yes
+
+
+
+- name: (VAULT - Populate) Add secrets to {{ platform }} vault path 
   vars:
     rndpass: "{{ lookup('password', '/dev/null length=15 chars=ascii_letters,digits') }}"
   uri:
-    url: "{{ vault_url }}/v1/{{ platform }}/{{ application }}/{{ vnf }}/{{ item }}"
+    url: "{{ vault_url }}/v1/{{ platform }}/data/{{ application }}/{{ vnf }}/{{ item }}"
     body_format: json
     method: POST
     headers:
       X-Vault-Token: "{{ vault_token }}"
     body: { "options": { "max_versions": "12" }, "data": { "password":"{{ rndpass }}" }}
     return_content: yes
-    status_code: "204"
+    status_code: "200"
   with_items: "{{ users }}"
+
+
+- name: Get secrets from {{ platform }}
+  uri:
+    url: "{{ vault_url }}/v1/{{ platform }}/data/{{ application }}/{{ vnf }}/{{ item }}"
+    body_format: json
+    method: GET
+    headers:
+      X-Vault-Token: "s.ERc7VRhVOV7qt2dA2awN5Rgd"
+    return_content: yes
+    status_code: "200"
+    register: key_pass
+  with_items: "{{ users }}"
+
+
+- debug: var=key_pass
