@@ -12,8 +12,8 @@ users:
   - sdmexpert
 
 vault_url: "http://192.168.122.33:8200"
-vault_token: 's.ERc7VRhVOV7qt2dA2awN5Rgd'
+vault_token: 's.rHXgtPKX2ecEfTpUChS7EDDw'
 
 platform: vSA
 application: sdl
-vnf: acc
+vnf: testg
