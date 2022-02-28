@@ -1,5 +1,5 @@
 ---
-# tasks file for update_users
+# Main tasks file for update_users role
 #
 - name: update individual user passwords
   include_tasks: user_update.yml

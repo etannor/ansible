@@ -10,7 +10,7 @@ users:
   - test
 
 vault_url: "http://192.168.122.33:8200"
-vault_token: 's.rHXgtPKX2ecEfTpUChS7EDDw'
+vault_token: 's.ERc7VRhVOV7qt2dA2awN5Rgd'
 
 platform: SDL
 application: sdl

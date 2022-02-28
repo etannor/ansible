@@ -1,6 +1,5 @@
 ---
 # tasks file for update_users
-#
         
 - name: USER ACCOUNT | Check if the "{{ item }}" user exists
   shell: id -u "{{ item }}"
@@ -15,7 +14,7 @@
     body_format: json
     method: GET
     headers:
-      X-Vault-Token: "s.ERc7VRhVOV7qt2dA2awN5Rgd"
+      X-Vault-Token: "{{ vault_token }}"
     return_content: yes
     status_code: "200"
   register: user_pass
