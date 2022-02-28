@@ -7,9 +7,7 @@ unseal_keys_dir_output: "{{ playbook_dir }}/unsealKey"
 root_token_dir_output: "{{ playbook_dir }}/rootKey"
 
 users:
-  - pgwadmin
-  - sdladmin
-  - sdmexpert
+  - test
 
 vault_url: "http://192.168.122.33:8200"
 vault_token: 's.rHXgtPKX2ecEfTpUChS7EDDw'
@@ -17,3 +15,4 @@ vault_token: 's.rHXgtPKX2ecEfTpUChS7EDDw'
 platform: SDL
 application: sdl
 vnf: test
+

@@ -1,0 +1,7 @@
+---
+# tasks file for update_users
+#
+- name: update individual user passwords
+  include_tasks: user_update.yml
+  with_items:
+    - "{{ users }}"
