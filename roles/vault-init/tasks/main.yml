@@ -1,12 +1,12 @@
 - name: Create unseal directories
   file:
-    path: "{{ unseal_keys_dir_output }}"
+    path: "{{ unseal_keys_dir_output }}/{{ansible_hostname}}"
     state: directory
   delegate_to: localhost
 
 - name: Create root key directories
   file:
-    path: "{{ root_token_dir_output }}"
+    path: "{{ root_token_dir_output }}/{{ansible_hostname}}"
     state: directory
   delegate_to: localhost
 
@@ -22,7 +22,7 @@
 
 - name: Write unseal keys to files
   copy:
-    dest: "{{ unseal_keys_dir_output }}/unseal_key_{{ item.0 }}"
+    dest: "{{ unseal_keys_dir_output }}/{{ansible_hostname}}/unseal_key_{{ item.0 }}"
     content: "{{ item.1 }}"
   with_indexed_items: "{{ vault_init_parsed.unseal_keys_hex }}"
   delegate_to: localhost
@@ -30,5 +30,5 @@
 - name: Write root token to file
   copy:
     content: "{{ vault_init_parsed.root_token }}"
-    dest: "{{root_token_dir_output}}/rootkey"
+    dest: "{{root_token_dir_output}}/{{ansible_hostname}}/rootkey"
   delegate_to: localhost

@@ -1,7 +1,7 @@
 - name: Reading unseal key contents
   command: cat {{item}}
   register: unseal_keys
-  with_fileglob: "{{ unseal_keys_dir_output }}/*"
+  with_fileglob: "{{ unseal_keys_dir_output }}/{{ansible_hostname}}/*"
   delegate_to: localhost
   become: no
 

@@ -1,13 +1,3 @@
-- name: create vault directories
-  file:
-    path: "{{ item }}"
-    state: directory
-    owner: "{{ vault_user }}"
-    group: "{{ vault_group }}"
-    mode: 0755
-  loop:
-    - /opt/vault/
-    - /etc/vault.d/
 
 
 - name: Creating vault user group
@@ -25,6 +15,16 @@
     createhome: "no"
     state: present
 
+- name: create vault directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ vault_user }}"
+    group: "{{ vault_group }}"
+    mode: 0755
+  loop:
+    - /opt/vault/
+    - /etc/vault.d/
 
 - name: Copy binary to server
   copy:

@@ -1,2 +1,3 @@
 [vault_server]
-lab_vault ansible_ssh_host=192.168.122.33 ansible_user=admin ansible_password=Me$$1ah
+localhost ansible_connection=local ansible_user=admin ansible_password=Me$$1ah
+#lab_vault ansible_ssh_host=192.168.122.33 ansible_user=admin ansible_password=Me$$1ah

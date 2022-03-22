@@ -1,0 +1,6 @@
+---
+
+- hosts: vault_server
+  roles:
+          #   - vault-init
+   - vault-unseal
